@@ -53,10 +53,14 @@ if __name__ == '__main__':
         slope=hdf_file['Image_data'][band_name].attrs['Slope']
         offset=hdf_file['Image_data'][band_name].attrs['Offset']
 
-        #numpyの行列にする
-        Error_DN=65535
+        #float32の行列にする
         band_image_arr=np.array(band_image_arr,dtype='float32')
-        product=np.where(band_image_arr!=Error_DN,band_image_arr*slope+offset,band_image_arr)
+
+		#プロダクトの値を計算する
+        Error_DN=hdf_file['Image_data'][band_name].attrs['Error_DN']
+        Maximum_valid_DN=hdf_file['Image_data'][band_name].attrs['Maximum_valid_DN']
+		#陸域、エラーのピクセルはすべて-9999で埋める
+        product=np.where(band_image_arr<=Maximum_valid_DN,band_image_arr*slope+offset,-9999)
 
         #行数
         row_size=product.shape[0]
@@ -71,8 +75,15 @@ if __name__ == '__main__':
         output.GetRasterBand(1).WriteArray(product)
         wkt = output.GetProjection()
         output.SetGCPs(gcp_list,wkt)
-#	#GCPを使ってEPSG4326に投影変換
-        output = gdal.Warp(output_file, output, dstSRS='EPSG:4326',tps = True,outputType=dtype,srcNodata=Error_DN,dstNodata=-9999,multithread=True)
+	#GCPを使ってEPSG4326に投影変換
+        output = gdal.Warp(output_file,\
+			   	output,\
+				dstSRS='+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs',\
+				tps = True,\
+				outputType=dtype,\
+				srcNodata=Error_DN,\
+				dstNodata=-9999,\
+				multithread=True)
         output = None 	
 
 
