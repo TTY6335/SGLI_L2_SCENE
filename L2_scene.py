@@ -3,6 +3,7 @@
 import h5py
 import numpy as np
 import gdal, ogr, os, osr, sys
+import gdalconst
 import tifffile
 
 if __name__ == '__main__':
@@ -83,7 +84,8 @@ if __name__ == '__main__':
 				outputType=dtype,\
 				srcNodata=Error_DN,\
 				dstNodata=-9999,\
-				multithread=True)
+				multithread=True,
+				resampleAlg=gdalconst.GRIORA_NearestNeighbour)
         output = None 	
 
 
