@@ -1,8 +1,15 @@
 # SGLI_L2_SCENE
 HDF5 to Geotiff converter for GCOM-C/SGLI OCEAN PRODUCTS
 
-GCOM-C/SGLI L2 の海洋プロダクトのHDF5のファイルをgeotiffに変換するプログラムです。 
-L2の海洋プロダクトはL1と同じくシーン単位で作成されるため[こちら](https://github.com/TTY6335/SGLI_L2) では使えません。  
+# Notice  
+This function merged to [SGLI_L2](https://github.com/TTY6335/SGLI_L2)  
+This repository is no longer updated.
+L2の投影変換を一つのプログラムでできるようにし、統合しました。  
+今後は[こちら](https://github.com/TTY6335/SGLI_L2) を改良していきます。
+
+
+GCOM-C/SGLI L2 の海洋プロダクトのHDF5のファイルをgeotiffに変換するプログラムです。  
+~L2の海洋プロダクトはL1と同じくシーン単位で作成されるため[こちら](https://github.com/TTY6335/SGLI_L2) では使えません。~  
 対象のプロダクトは
 
 L2-正規化海水射出放射輝度 等  
